@@ -18,87 +18,79 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Prioridade** | Essencial |
 | **Caso de uso relacionado** | UC02 |
 
-| **RF03** | **Recuperar senha** |
-| -- | -- |
-| **Descrição** | O usuário poderá solicitar redefinição de senha caso a esqueça. |
-| **Prioridade** | Essencial |
-| **Caso de uso relacionado** | UC03 |
-
-| **RF04** | **Apagar conta** |
+| **RF03** | **Apagar conta** |
 | -- | -- |
 | **Descrição** | O usuário poderá excluir permanentemente sua conta e todos os dados relacionados. |
 | **Prioridade** | Essencial |
-| **Caso de uso relacionado** | UC04 |
+| **Caso de uso relacionado** | UC03 |
 
-| **RF05** | **Encurtar link** |
+| **RF04** | **Encurtar link** |
 | -- | -- |
 | **Descrição** | Gera um link encurtado a partir do link original. O identificador pode ser definido pelo usuário (se disponível) ou gerado de forma aleatória pelo sistema. |
 | **Prioridade** | Essencial |
-| **Caso de uso relacionado** | UC05 |
+| **Caso de uso relacionado** | UC04 |
 
-| **RF06** | **Listar links** |
+| **RF05** | **Listar links** |
 | -- | -- |
 | **Descrição** | Lista os links encurtados pelo usuário autenticado. |
 | **Prioridade** | Alta |
-| **Caso de uso relacionado** | UC06 |
+| **Caso de uso relacionado** | UC05 |
 
-| **RF07** | **Apagar link** |
+| **RF06** | **Apagar link** |
 | -- | -- |
 | **Descrição** | Apaga o link encurtado da base de dados do sistema. |
 | **Prioridade** | Alta |
-| **Caso de uso relacionado** | UC07 |
+| **Caso de uso relacionado** | UC06 |
 
-| **RF08** | **Ver métricas do link** |
+| **RF07** | **Ver métricas do link** |
 | -- | -- |
 | **Descrição** | Exibe estatísticas do link, como número de acessos e data de cada acesso. (Opcional: IPs que acessaram). |
 | **Prioridade** | Baixa |
-| **Caso de uso relacionado** | UC08 |
+| **Caso de uso relacionado** | UC07 |
 
-| **RF09** | **Adicionar senha ao link** |
+| **RF08** | **Adicionar senha ao link** |
 | -- | -- |
 | **Descrição** | Torna o link privado, exigindo a senha informada pelo usuário para permitir acesso ao destino original. |
 | **Prioridade** | Normal |
-| **Caso de uso relacionado** | UC09 |
+| **Caso de uso relacionado** | UC08 |
 
-| **RF10** | **Remover senha do link** |
+| **RF09** | **Remover senha do link** |
 | -- | -- |
 | **Descrição** | Remove a exigência de senha para acessar o link original, apagando a senha vinculada. |
 | **Prioridade** | Normal |
-| **Caso de uso relacionado** | UC10 |
+| **Caso de uso relacionado** | UC09 |
 
-| **RF11** | **Acessar link** |
+| **RF10** | **Acessar link** |
 | -- | -- |
 | **Descrição** | Redireciona o usuário para a página original a partir do link encurtado. |
 | **Prioridade** | Essencial |
-| **Caso de uso relacionado** | UC11 |
+| **Caso de uso relacionado** | UC10 |
 
-| **RF12** | **Validar acesso ao link** |
+| **RF11** | **Validar acesso ao link** |
 | -- | -- |
 | **Descrição** | Caso o link seja protegido por senha, o sistema solicitará a senha antes do redirecionamento. Se a senha estiver incorreta, o acesso será negado. (Opcional: após 20 tentativas incorretas, o sistema poderá bloquear acessos do mesmo IP). |
 | **Prioridade** | Normal |
-| **Caso de uso relacionado** | UC12 |
+| **Caso de uso relacionado** | UC11 |
 
-| **RF13** | **Expiração de link** |
+| **RF12** | **Expiração de link** |
  | -- | -- |
 | **Descrição** | O usuário poderá definir uma data ou quantidade máxima de acessos, após a qual o link deixará de funcionar. |
 | **Prioridade** | Baixo |
-| **Caso de uso relacionado** | UC13 |
+| **Caso de uso relacionado** | UC12 |
 
-| **RF14** | **BloquearIP** |
+| **RF13** | **BloquearIP** |
  | -- | -- |
 | **Descrição** | O usuário poderá restringir acessos de determinados IPs ou domínios. |
 | **Prioridade** | Opcional |
-| **Caso de uso relacionado** | UC14 |
+| **Caso de uso relacionado** | UC13 |
 
-| **RF15** | **Busca de links** |
+| **RF14** | **Busca de links** |
  | -- | -- |
 | **Descrição** | Permitir localizar rapidamente um link encurtado pelo identificador ou destino original. |
 | **Prioridade** | Opcional |
-| **Caso de uso relacionado** | UC15 |
+| **Caso de uso relacionado** | UC14 |
 
-
-
----
+![Diagrama de caso de uso](LinkShortener.drawio.svg)
 
 # Casos de uso
 
@@ -121,20 +113,8 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se os dados forem inválidos, o sistema exibe mensagem de erro.<br>- Após várias tentativas inválidas, o sistema pode bloquear temporariamente o acesso. |
 | **Pós-condições** | O usuário estará autenticado e terá acesso ao sistema. |
 
----
 
-|**UC03** | **Recuperar senha** |
-| -- | -- |
-| **Descrição** | Permite redefinir a senha caso o usuário a esqueça. |
-| **Atores** | Usuário não autenticado |
-| **Pré-condições** | O usuário deve possuir e-mail cadastrado no sistema. |
-| **Fluxo Principal** | 1. O usuário acessa a tela de recuperação de senha.<br>2. Informa o e-mail cadastrado.<br>3. O sistema envia link de redefinição de senha.<br>4. O usuário acessa o link e define nova senha.<br>5. O sistema confirma a alteração. |
-| **Fluxo Alternativo** | - Se o e-mail não estiver cadastrado, o sistema exibe mensagem de erro.<br>- Se o link expirar, o sistema solicita novo pedido de redefinição. |
-| **Pós-condições** | O usuário terá uma nova senha definida e poderá acessar o sistema. |
-
----
-
-|**UC04** | **Apagar conta** |
+|**UC03** | **Apagar conta** |
 | -- | -- |
 | **Descrição** | Permite excluir permanentemente a conta e dados associados. |
 | **Atores** | Usuário autenticado |
@@ -143,9 +123,8 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o usuário cancelar a operação, a conta permanece ativa.<br>- Se houver falha na exclusão de dados, o sistema exibe mensagem de erro. |
 | **Pós-condições** | A conta e todos os dados associados serão permanentemente removidos. |
 
----
 
-|**UC05** | **Encurtar link** |
+|**UC04** | **Encurtar link** |
 | -- | -- |
 | **Descrição** | Cria um link encurtado a partir de um original. |
 | **Atores** | Usuário autenticado |
@@ -154,9 +133,7 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o URL for inválido, o sistema solicita correção.<br>- Se o link já tiver sido encurtado, o sistema pode sugerir o link existente. |
 | **Pós-condições** | O link original terá uma versão encurtada disponível para uso. |
 
----
-
-|**UC06** | **Listar links** |
+|**UC05** | **Listar links** |
 | -- | -- |
 | **Descrição** | Exibe todos os links encurtados do usuário logado. |
 | **Atores** | Usuário autenticado |
@@ -165,9 +142,8 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se não houver links cadastrados, o sistema exibe "Nenhum link disponível". |
 | **Pós-condições** | O usuário visualiza os links encurtados cadastrados. |
 
----
 
-|**UC07** | **Apagar link** |
+|**UC06** | **Apagar link** |
 | -- | -- |
 | **Descrição** | Permite excluir permanentemente um link encurtado. |
 | **Atores** | Usuário autenticado |
@@ -176,7 +152,7 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o usuário cancelar, o link permanece ativo.<br>- Se houver falha na exclusão, o sistema exibe mensagem de erro. |
 | **Pós-condições** | O link será removido permanentemente do sistema. |
 
-|**UC08** | **Ver métricas do link** |
+|**UC07** | **Ver métricas do link** |
 | -- | -- |
 | **Descrição** | Permite visualizar estatísticas de acesso do link. |
 | **Atores** | Usuário autenticado |
@@ -185,9 +161,8 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o link não tiver acessos, o sistema exibe “Nenhum acesso registrado”.<br>- Se houver erro na coleta de métricas, o sistema exibe mensagem de falha. |
 | **Pós-condições** | O usuário terá acesso às estatísticas de desempenho do link. |
 
----
 
-|**UC09** | **Adicionar senha ao link** |
+|**UC08** | **Adicionar senha ao link** |
 | -- | -- |
 | **Descrição** | Torna o link privado exigindo senha para acesso. |
 | **Atores** | Usuário autenticado |
@@ -196,9 +171,9 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se a senha não atender aos critérios (tamanho mínimo, caracteres especiais), o sistema solicita nova senha.<br>- Se o usuário cancelar a operação, o link permanece sem senha. |
 | **Pós-condições** | O link terá acesso protegido por senha. |
 
----
 
-|**UC10** | **Remover senha do link** |
+
+|**UC09** | **Remover senha do link** |
 | -- | -- |
 | **Descrição** | Retira a proteção de senha do link. |
 | **Atores** | Usuário autenticado |
@@ -207,9 +182,8 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o usuário cancelar a operação, a senha permanece ativa.<br>- Se houver falha na remoção, o sistema exibe mensagem de erro. |
 | **Pós-condições** | O link estará acessível sem necessidade de senha. |
 
----
 
-|**UC11** | **Acessar link** |
+|**UC10** | **Acessar link** |
 | -- | -- |
 | **Descrição** | Redireciona para o link original a partir do encurtado. |
 | **Atores** | Qualquer usuário |
@@ -218,9 +192,9 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o link não existir ou estiver expirado, o sistema exibe mensagem de erro.<br>- Se o link estiver protegido por senha, o sistema solicita validação (UC12). |
 | **Pós-condições** | O usuário acessará o URL original associado ao link encurtado. |
 
----
 
-|**UC12** | **Validar acesso ao link** |
+
+|**UC11** | **Validar acesso ao link** |
 | -- | -- |
 | **Descrição** | Caso o link seja privado, valida a senha antes do redirecionamento. |
 | **Atores** | Qualquer usuário |
@@ -231,7 +205,7 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 
 
 
-|**UC13** | **Expiração de link** |
+|**UC12** | **Expiração de link** |
 | -- | -- |
 | **Descrição** | Permite que o usuário defina uma data de validade ou número máximo de acessos, após os quais o link encurtado deixa de funcionar. |
 | **Atores** | Usuário (principal), Sistema (secundário) |
@@ -240,7 +214,7 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Alternativo** | - Se o usuário não informar configuração válida, o sistema solicita nova entrada.<br>- Caso a data seja anterior à atual, o sistema exibe mensagem de erro. |
 | **Pós-condições** | O link terá uma regra de expiração e ficará inativo após o prazo ou limite definido. |
 
-|**UC14** | **Bloquear IP** |
+|**UC13** | **Bloquear IP** |
 | -- | -- |
 | **Descrição** | O usuário pode restringir acessos de determinados IPs ou domínios a um link encurtado. |
 | **Atores** | Usuário (principal), Sistema (secundário) |
@@ -250,7 +224,7 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Pós-condições** | O link terá restrições aplicadas, negando acesso aos IPs/domínios bloqueados. |
 
 
-|**UC15** | **Busca de links** |
+|**UC14** | **Busca de links** |
 | -- | -- |
 | **Descrição** | Permite localizar links encurtados rapidamente pelo identificador ou URL original. |
 | **Atores** | Usuário (principal), Sistema (secundário) |
@@ -258,3 +232,103 @@ Este projeto visa o desenvolvimento de um encurtador de links, o qual, além de 
 | **Fluxo Principal** | 1. O usuário acessa a interface de busca.<br>2. Digita o termo de pesquisa (identificador ou URL).<br>3. O sistema processa a consulta.<br>4. O sistema exibe os resultados correspondentes. |
 | **Fluxo Alternativo** | - Se não houver resultados, o sistema exibe "Nenhum link encontrado".<br>- Se o termo for inválido, o sistema solicita correção. |
 | **Pós-condições** | O usuário acessa a lista filtrada de links encurtados que correspondem à busca. |
+
+
+* **Diagrama de classes**
+
+```mermaid
+classDiagram
+    UserEntity *-- ShortLinksEntity
+    ShortLinksEntity *-- AccessEntity
+
+    class UserEntity{
+        -Long   id
+        -String email
+        -String name
+        -String password
+        
+        +getId()
+        +setId()
+        +getEmail()
+        +setEmail()
+        +getName()
+        +setName()
+        +getPassword()
+        +setPassword()
+    }
+
+    class ShortLinksEntity{
+        -Long id
+        -String URL_Original
+        -String code
+        -DateTime expirationDate
+        -Boolean isPrivate
+        -String password
+        -Long owner
+        
+        +getId()
+        +setId()
+        +getURL_Original()
+        +setURL_Original()
+        +getCode()
+        +setCode()
+        +getExpirationDate()
+        +setExpirationDate()
+        +getIsPrivate()
+        +setIsPrivate()
+        +getPassword()
+        +setPassword()
+        +getOwner()
+        +setOwner()
+    }
+    class AccessEntity{
+        -Long id
+        -String IP
+        -Long shortLink
+        -DateTime accessDate
+        -Boolean wasBlocked
+        
+        +getId()
+        +setId()
+        +getIP()
+        +setIP()
+        +getShortLink()
+        +setShortLink()
+        +getAccessDate()
+        +setAccessDate()
+        +getWasBlocked()
+        +setWasBlocked()
+    }
+```
+
+* **Diagrama relacional*
+```mermaid
+erDiagram
+    UserEntity {
+        bigint id PK
+        varchar email
+        varchar name
+        varchar password
+    }
+
+    ShortLinksEntity {
+        bigint id PK
+        varchar URL_Original
+        varchar code
+        datetime expirationDate
+        boolean isPrivate
+        varchar password
+        bigint owner FK
+    }
+
+    AccessEntity {
+        bigint id PK
+        bigint shortLink FK
+        varchar IP
+        datetime accessDate
+        boolean wasBlocked
+    }
+
+    UserEntity ||--o{ ShortLinksEntity : "possui"
+    ShortLinksEntity ||--o{ AccessEntity : "é acessado por"
+```

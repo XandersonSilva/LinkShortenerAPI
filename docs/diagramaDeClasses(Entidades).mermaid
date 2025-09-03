@@ -1,0 +1,66 @@
+---
+title: Diagrama de classes (Entidades)
+---
+classDiagram
+    UserEntity *-- ShortLinksEntity
+    ShortLinksEntity *-- AccessEntity
+
+    class UserEntity{
+        -Long   id
+        -String email
+        -String name
+        -String password
+        
+        +getId()
+        +setId()
+        +getEmail()
+        +setEmail()
+        +getName()
+        +setName()
+        +getPassword()
+        +setPassword()
+    }
+
+    class ShortLinksEntity{
+        -Long id
+        -String URL_Original
+        -String code
+        -DateTime expirationDate
+        -Boolean isPrivate
+        -String password
+        -Long owner
+        
+        +getId()
+        +setId()
+        +getURL_Original()
+        +setURL_Original()
+        +getCode()
+        +setCode()
+        +getExpirationDate()
+        +setExpirationDate()
+        +getIsPrivate()
+        +setIsPrivate()
+        +getPassword()
+        +setPassword()
+        +getOwner()
+        +setOwner()
+    }
+    class AccessEntity{
+        -Long id
+        -String IP
+        -Long shortLink
+        -DateTime accessDate
+        -Boolean wasBlocked
+        
+        +getId()
+        +setId()
+        +getIP()
+        +setIP()
+        +getShortLink()
+        +setShortLink()
+        +getAccessDate()
+        +setAccessDate()
+        +getWasBlocked()
+        +setWasBlocked()
+        
+    }

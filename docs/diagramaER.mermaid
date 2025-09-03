@@ -1,0 +1,28 @@
+erDiagram
+    UserEntity {
+        bigint id PK
+        varchar email
+        varchar name
+        varchar password
+    }
+
+    ShortLinksEntity {
+        bigint id PK
+        varchar URL_Original
+        varchar code
+        datetime expirationDate
+        boolean isPrivate
+        varchar password
+        bigint owner FK
+    }
+
+    AccessEntity {
+        bigint id PK
+        bigint shortLink FK
+        varchar IP
+        datetime accessDate
+        boolean wasBlocked
+    }
+
+    UserEntity ||--o{ ShortLinksEntity : "possui"
+    ShortLinksEntity ||--o{ AccessEntity : "é acessado por"
