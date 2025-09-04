@@ -1,7 +1,12 @@
 package edu.xanderson.linkShortener.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,22 +17,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor
 @Entity
-public class UserEntity {
+public class UserEntity implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NonNull
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
+    @NonNull
     @Column(nullable = false)
     private String password;
 
@@ -36,4 +46,16 @@ public class UserEntity {
                 orphanRemoval = true
     )
     private List<ShortLinksEntity> links  = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities ;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 }
