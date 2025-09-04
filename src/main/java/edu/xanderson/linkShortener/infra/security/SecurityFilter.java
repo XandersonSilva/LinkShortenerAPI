@@ -32,25 +32,25 @@ public class SecurityFilter extends OncePerRequestFilter{
                                     @NonNull FilterChain filterChain
                                 ) throws ServletException, IOException {
         String token = this.recoverToken(request);
-        if (token == null) {
-            filterChain.doFilter(request, response);
-            return;
+        if (token != null) {
+            String login = tokenService.verifyToken(token);
+            UserDetails user = userRepository.findByEmail(login);
+            
+            UsernamePasswordAuthenticationToken authenticade = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            
+            SecurityContextHolder.getContext().setAuthentication(authenticade);
         }
-        String login = tokenService.verifyToken(token);
-        UserDetails user = userRepository.findByEmail(login);
-
-        UsernamePasswordAuthenticationToken authenticade = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
-        SecurityContextHolder.getContext().setAuthentication(authenticade);;
+        
+        filterChain.doFilter(request, response);
     }
 
 
     public String recoverToken(HttpServletRequest request){
         String authHeader = request.getHeader("Authorization");
-        
+                
         if (authHeader == null) {
             return null;
         }
-        return authHeader.replace("Bearer", "");
+        return authHeader.replace("Bearer ", "");
     }
 }

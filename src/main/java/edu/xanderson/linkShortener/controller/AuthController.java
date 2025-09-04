@@ -19,7 +19,7 @@ import edu.xanderson.linkShortener.model.DTOs.AuthRegisterDTO;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController{
     @Autowired
     private AuthenticationManager authenticationManager;
 

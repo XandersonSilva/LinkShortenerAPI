@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+
+import edu.xanderson.linkShortener.model.DTOs.ShortLinksCreateDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +23,11 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 @Entity
 public class ShortLinksEntity {
+
+    public ShortLinksEntity(ShortLinksCreateDTO link){
+        BeanUtils.copyProperties(link, this);
+        this.owner.setId(link.getOwner_id());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +48,7 @@ public class ShortLinksEntity {
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
-    private UserEntity owner;
+    private UserEntity owner = new UserEntity();
 
     @OneToMany(mappedBy = "shortLink",
                 cascade = CascadeType.ALL,

@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class securityConfiguration {
+public class SecurityConfiguration {
     @Autowired
     SecurityFilter securityFilter;
 
@@ -25,8 +25,8 @@ public class securityConfiguration {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(
-                    session -> session.
-                    sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     )
                 .authorizeHttpRequests( authorize -> authorize.
                     requestMatchers(
@@ -34,12 +34,17 @@ public class securityConfiguration {
                         "/auth/register"
                     ).permitAll()
                     .requestMatchers(
+                        HttpMethod.GET,
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**"
+                    ).permitAll()
+                    .requestMatchers(
                         HttpMethod.POST,
                         "/auth/login"
                     ).permitAll()
                     .requestMatchers(
                         HttpMethod.POST,
-                        "/"
+                        "/shrt"
                     ).permitAll()
                     .anyRequest().authenticated()
                 

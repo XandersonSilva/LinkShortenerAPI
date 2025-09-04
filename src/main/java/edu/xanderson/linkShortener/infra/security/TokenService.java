@@ -31,13 +31,13 @@ public class TokenService {
         }
     }
 
-    public String verifyToken(String key){
+    public String verifyToken(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256(key);
             return JWT.require(algorithm)
                                 .withIssuer("auth-api")
                                 .build()
-                                .verify(key)
+                                .verify(token)
                                 .getSubject();
         } catch (JWTCreationException e) {
             return "";
