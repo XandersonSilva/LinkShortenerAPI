@@ -7,12 +7,14 @@ import edu.xanderson.linkShortener.model.ShortLinksEntity;
 import edu.xanderson.linkShortener.model.UserEntity;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksCreateDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksDeleteDTO;
+import edu.xanderson.linkShortener.model.DTOs.ShortLinksEditDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksSummaryDTO;
 import edu.xanderson.linkShortener.model.repository.ShortLinksRepository;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -121,7 +123,7 @@ public class ShortLinksService {
     // Apagar link
     public boolean deleteLink(ShortLinksDeleteDTO link, UserEntity user){
         ShortLinksEntity DB_Link = shortLinksRepository.getReferenceById(link.getId());
-        System.out.println(DB_Link.getOwner().getId());
+
         if (DB_Link.getOwner().getId() == user.getId()) {
             shortLinksRepository.delete(DB_Link);
             return true;
@@ -129,11 +131,42 @@ public class ShortLinksService {
         return false;
     }
 
-    // Ver métricas do link
-    // Adicionar senha ao link
-    // Remover senha do link
-    // Adicionar expiração
-    // Buscar links
-    // Bloquear IP
     
+    // Adicionar senha ao link
+    public boolean addPasswordLink(ShortLinksEditDTO link, UserEntity user){
+        ShortLinksEntity DB_Link = shortLinksRepository.getReferenceById(link.getId());
+        if (DB_Link.getOwner().getId() == user.getId() && link.getPassword() != null) {
+            DB_Link.setPrivate(true);
+            DB_Link.setPassword(link.getPassword());
+            shortLinksRepository.save(DB_Link);
+            return true;
+        }
+        return false;
+    }
+
+    // Remover senha do link
+    public boolean removePasswordLink(ShortLinksEditDTO link, UserEntity user){
+        ShortLinksEntity DB_Link = shortLinksRepository.getReferenceById(link.getId());
+        if (DB_Link.getOwner().getId() == user.getId()) {
+            DB_Link.setPrivate(false);
+            DB_Link.setPassword(null);
+            shortLinksRepository.save(DB_Link);
+            return true;
+        }
+        return false;
+    }
+    
+    // Adicionar expiração
+    public boolean addExpirationDate(ShortLinksEditDTO link, UserEntity user){
+        ShortLinksEntity DB_Link = shortLinksRepository.getReferenceById(link.getId());
+        // Verificar se a data de expiaração foi informada
+        if (link.getExpirationDate() == null) return false;
+
+        if (DB_Link.getOwner().getId() == user.getId() && link.getExpirationDate().isAfter(LocalDate.now())) {
+            DB_Link.setExpirationDate(link.getExpirationDate());
+            shortLinksRepository.save(DB_Link);
+            return true;
+        }
+        return false;
+    }
 }

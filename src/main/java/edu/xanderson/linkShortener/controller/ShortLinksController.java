@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties.ShowSummary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.xanderson.linkShortener.model.UserEntity;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksCreateDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksDeleteDTO;
+import edu.xanderson.linkShortener.model.DTOs.ShortLinksEditDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksSummaryDTO;
 import edu.xanderson.linkShortener.service.ShortLinksService;
 @RestController 
@@ -47,7 +47,7 @@ public class ShortLinksController {
         return ResponseEntity.badRequest().body(null);
     }
 
-    // Apagar link
+    // Apagar link / Buscar links
     @PostMapping("/link/delete")
     public ResponseEntity<String> deleteLink(@Validated @RequestBody ShortLinksDeleteDTO link, @AuthenticationPrincipal UserEntity user){
         if(shortLinksService.deleteLink(link, user)){
@@ -55,11 +55,35 @@ public class ShortLinksController {
         }
         return ResponseEntity.badRequest().body("ERRO");
     }
-    // Ver métricas do link
     // Adicionar senha ao link
+    @PostMapping("/link/set_password")
+    public ResponseEntity<String> setPasswordLink(@Validated @RequestBody ShortLinksEditDTO link, @AuthenticationPrincipal UserEntity user){
+        if(shortLinksService.addPasswordLink(link, user)){
+            return ResponseEntity.ok().body("Senha adicionada!");
+        }
+        return ResponseEntity.badRequest().body("ERRO");
+    }
+
     // Remover senha do link
-    // Adicionar expiração
+    @PostMapping("/link/remove_password")
+    public ResponseEntity<String> removePasswordLink(@Validated @RequestBody ShortLinksEditDTO link, @AuthenticationPrincipal UserEntity user){
+        if(shortLinksService.removePasswordLink(link, user)){
+            return ResponseEntity.ok().body("Senha removida!");
+        }
+        return ResponseEntity.badRequest().body("ERRO");
+    }
+
+    // Adicionar expiração personalizada
+    @PostMapping("/link/expiration_date")
+    public ResponseEntity<String> setExpirationDate(@Validated @RequestBody ShortLinksEditDTO link, @AuthenticationPrincipal UserEntity user){
+        if(shortLinksService.addExpirationDate(link, user)){
+            return ResponseEntity.ok().body("Data de expiração adicionada!");
+        }
+        return ResponseEntity.badRequest().body("ERRO");
+    }
+    
+    // Ver métricas do link
     // Bloquear IP
-    // Buscar links
+
 }
 
