@@ -31,5 +31,14 @@ public class ShortLinksController {
                 return ResponseEntity.ok().body(result);
         }
     }
+
+    // Listar links
+    // Apagar link 
+    // Ver métricas do link
+    // Adicionar senha ao link
+    // Remover senha do link
+    // Adicionar expiração
+    // Bloquear IP
+    // Buscar links
 }
 

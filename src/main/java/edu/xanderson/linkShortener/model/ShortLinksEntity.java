@@ -59,4 +59,10 @@ public class ShortLinksEntity {
     )
     private List<AccessEntity> acess = new ArrayList<>();
 
+    @OneToMany(mappedBy = "code",
+                cascade = CascadeType.ALL,
+                orphanRemoval = true
+    )
+    private List<BlockedIPEntity> blockedsIPs = new ArrayList<>();
+
 }
