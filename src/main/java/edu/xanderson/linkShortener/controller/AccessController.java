@@ -19,8 +19,11 @@ public class AccessController {
     private HttpServletRequest request;
 
     @GetMapping("/l/{link}")
-    public String getOriginalLink(@PathVariable("link") String link, @RequestBody AcessLinkPasswordDTO password){
-        System.out.println(link);
+    public String getOriginalLink(@PathVariable("link") String link, @RequestBody(required = false) AcessLinkPasswordDTO password){
+        if (password == null) {
+            password = new AcessLinkPasswordDTO();
+            password.setPassword("");
+        }
         
         String originalLink = accessService.registerAccess(link, password.getPassword(), request.getRemoteAddr());
         //ERRO: 
@@ -35,6 +38,6 @@ public class AccessController {
             return null;
         }
 
-        return "redirect:" + originalLink;
+         return "redirect:" + originalLink;
     }
 }
