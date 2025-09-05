@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.xanderson.linkShortener.model.AccessEntity;
+import edu.xanderson.linkShortener.model.BlockIPEntity;
 import edu.xanderson.linkShortener.model.ShortLinksEntity;
 import edu.xanderson.linkShortener.model.UserEntity;
 import edu.xanderson.linkShortener.model.DTOs.AccessSummaryDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksEditDTO;
 import edu.xanderson.linkShortener.model.repository.AccessRepository;
+import edu.xanderson.linkShortener.model.repository.BlockIPRepository;
 import edu.xanderson.linkShortener.model.repository.ShortLinksRepository;
 
 @Service
@@ -23,19 +25,33 @@ public class AccessService {
     @Autowired
     private ShortLinksRepository shortLinksRepository;
 
+    @Autowired
+    private BlockIPRepository blockIPRepository;
+
     public String registerAccess(String link, String password, String ip){
         List<ShortLinksEntity> originalLinkList = shortLinksRepository.findByCode(link);
 
-        System.out.println(link);
+        
+        
         if (originalLinkList.size() == 0) {
             //ERRO: 
             //NF:  Abreviação de not finded
             return "NF";
         }
-
+        
         ShortLinksEntity originalLink = originalLinkList.getFirst();
 
         AccessEntity access = new AccessEntity(ip, originalLink, false);
+        
+        BlockIPEntity isIpBlocked = blockIPRepository.findByIPAndCodeId(ip, originalLink.getId());
+        if (isIpBlocked != null) {
+            if (isIpBlocked.getIP().equals(ip)) {
+                access.setWasBlocked(true);
+                accessRepository.save(access);
+                return "BLOCK";
+            }
+        }
+        
 
         if (originalLink.isPrivate() == true) {
             String originalPassword = originalLink.getPassword();
@@ -73,8 +89,5 @@ public class AccessService {
         }
 
         return accessesDTO;
-
-
-
     }
 }

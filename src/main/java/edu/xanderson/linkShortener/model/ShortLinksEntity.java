@@ -63,6 +63,6 @@ public class ShortLinksEntity {
                 cascade = CascadeType.ALL,
                 orphanRemoval = true
     )
-    private List<BlockedIPEntity> blockedsIPs = new ArrayList<>();
+    private List<BlockIPEntity> blockedsIPs = new ArrayList<>();
 
 }
