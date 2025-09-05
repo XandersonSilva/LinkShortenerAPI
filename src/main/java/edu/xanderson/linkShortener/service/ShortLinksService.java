@@ -7,6 +7,9 @@ import edu.xanderson.linkShortener.model.ShortLinksEntity;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksCreateDTO;
 import edu.xanderson.linkShortener.model.repository.ShortLinksRepository;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
 
@@ -59,11 +62,30 @@ public class ShortLinksService {
         return code;
     }
 
+    private boolean valideLink(String originalLink) throws IOException{
+        URL u = new URL(originalLink);
+        int CODEResponse = 0;
+        HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+        huc.setRequestMethod("GET");
+        huc.connect();
+        CODEResponse = huc.getResponseCode();
+        if (CODEResponse != 200) {
+            return false;
+            
+        } else {
+            return true;
+        }
+    }
+
     // Retorna 
     // 0: Sucesso
     // 1: código do usuário já em uso
-    // 2: outro erro
-    public String createShortLink(ShortLinksCreateDTO link){
+    // 2: Url inválida
+    public String createShortLink(ShortLinksCreateDTO link) throws IOException{
+        if (!valideLink(link.getOriginalUrl())) {
+            return "2";
+        }
+
 
         if (link.getCode() != null && !verifyCodeIsUnique(link.getCode())) {
             return "1";
@@ -80,5 +102,8 @@ public class ShortLinksService {
             return "2";
         }
     }
+
+
+
     
 }

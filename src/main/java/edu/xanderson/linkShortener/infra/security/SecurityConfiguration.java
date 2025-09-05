@@ -46,8 +46,11 @@ public class SecurityConfiguration {
                         HttpMethod.POST,
                         "/shrt"
                     ).permitAll()
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "/l/*"
+                    ).permitAll()
                     .anyRequest().authenticated()
-                
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

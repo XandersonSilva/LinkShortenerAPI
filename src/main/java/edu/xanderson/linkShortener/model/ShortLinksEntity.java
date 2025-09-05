@@ -23,10 +23,13 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 @Entity
 public class ShortLinksEntity {
-
+    //Copiando os dados do DTO para o objeto criado 
     public ShortLinksEntity(ShortLinksCreateDTO link){
         BeanUtils.copyProperties(link, this);
         this.owner.setId(link.getOwner_id());
+
+        // Por algum motivo esse atributo não foi copiado por isso é feito manualmente
+        this.isPrivate = link.getIsPrivate();
     }
 
     @Id
@@ -42,7 +45,7 @@ public class ShortLinksEntity {
     @Column(nullable = false)
     private LocalDate expirationDate = LocalDate.now().plusMonths(2);
     
-    private boolean isPrivate = false;
+    private boolean isPrivate;
     
     private String password;
 

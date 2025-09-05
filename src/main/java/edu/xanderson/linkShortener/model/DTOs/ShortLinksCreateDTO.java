@@ -18,10 +18,14 @@ public class ShortLinksCreateDTO {
     
     private LocalDate expirationDate = LocalDate.now().plusMonths(2);
     
-    private boolean isPrivate = false;
+    private boolean isPrivate;
     
     private String password;
 
     @NotNull
     private long owner_id;
+
+    public boolean getIsPrivate(){
+        return this.isPrivate;
+    }
 }
