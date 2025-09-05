@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.xanderson.linkShortener.model.ShortLinksEntity;
+import edu.xanderson.linkShortener.model.UserEntity;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksCreateDTO;
+import edu.xanderson.linkShortener.model.DTOs.ShortLinksDeleteDTO;
+import edu.xanderson.linkShortener.model.DTOs.ShortLinksSummaryDTO;
 import edu.xanderson.linkShortener.model.repository.ShortLinksRepository;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -104,6 +108,32 @@ public class ShortLinksService {
     }
 
 
+    // Listar links
+    public List<ShortLinksSummaryDTO> getLinks(UserEntity user){
+        List<ShortLinksSummaryDTO> userLinksDTO = new ArrayList<ShortLinksSummaryDTO>();
+        List<ShortLinksEntity> userLinks = shortLinksRepository.findByOwnerId(user.getId());
+        for (ShortLinksEntity link : userLinks) {
+            userLinksDTO.add(new ShortLinksSummaryDTO(link));
+        }
+        return userLinksDTO;
+    }
 
+    // Apagar link
+    public boolean deleteLink(ShortLinksDeleteDTO link, UserEntity user){
+        ShortLinksEntity DB_Link = shortLinksRepository.getReferenceById(link.getId());
+        System.out.println(DB_Link.getOwner().getId());
+        if (DB_Link.getOwner().getId() == user.getId()) {
+            shortLinksRepository.delete(DB_Link);
+            return true;
+        }
+        return false;
+    }
+
+    // Ver métricas do link
+    // Adicionar senha ao link
+    // Remover senha do link
+    // Adicionar expiração
+    // Buscar links
+    // Bloquear IP
     
 }

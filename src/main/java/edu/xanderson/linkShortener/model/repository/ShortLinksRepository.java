@@ -8,4 +8,5 @@ import edu.xanderson.linkShortener.model.ShortLinksEntity;
 
 public interface ShortLinksRepository extends JpaRepository<ShortLinksEntity, Long> {
     List<ShortLinksEntity> findByCode(String code);
+    List<ShortLinksEntity> findByOwnerId(long ownerId);
 }
