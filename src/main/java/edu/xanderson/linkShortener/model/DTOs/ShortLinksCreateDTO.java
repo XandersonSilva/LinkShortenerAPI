@@ -3,7 +3,6 @@ package edu.xanderson.linkShortener.model.DTOs;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,6 @@ public class ShortLinksCreateDTO {
     
     private String password;
 
-    @NotNull
     private long owner_id;
 
     public boolean getIsPrivate(){

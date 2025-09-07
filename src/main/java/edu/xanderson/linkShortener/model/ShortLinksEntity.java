@@ -26,9 +26,12 @@ public class ShortLinksEntity {
     //Copiando os dados do DTO para o objeto criado 
     public ShortLinksEntity(ShortLinksCreateDTO link){
         BeanUtils.copyProperties(link, this);
-        this.owner.setId(link.getOwner_id());
+        if(link.getOwner_id() != 0){
+            this.owner = new UserEntity();
+            this.owner.setId(link.getOwner_id());
+        }
 
-        // Por algum motivo esse atributo não foi copiado por isso é feito manualmente
+        // Por algum motivo esse atributo não foi copiado, por isso é feito manualmente
         this.isPrivate = link.getIsPrivate();
     }
 
@@ -50,8 +53,8 @@ public class ShortLinksEntity {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
-    private UserEntity owner = new UserEntity();
+    @JoinColumn(name = "owner_id", nullable = true)
+    private UserEntity owner;
 
     @OneToMany(mappedBy = "shortLink",
                 cascade = CascadeType.ALL,

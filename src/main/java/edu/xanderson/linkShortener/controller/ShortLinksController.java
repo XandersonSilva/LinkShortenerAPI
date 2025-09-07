@@ -18,7 +18,8 @@ import edu.xanderson.linkShortener.model.DTOs.ShortLinksDeleteDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksEditDTO;
 import edu.xanderson.linkShortener.model.DTOs.ShortLinksSummaryDTO;
 import edu.xanderson.linkShortener.service.ShortLinksService;
-@RestController 
+
+@RestController
 public class ShortLinksController {
     @Autowired
     private ShortLinksService shortLinksService;

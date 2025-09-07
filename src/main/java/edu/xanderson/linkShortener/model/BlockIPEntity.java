@@ -1,7 +1,5 @@
 package edu.xanderson.linkShortener.model;
 
-import org.springframework.beans.BeanUtils;
-
 import edu.xanderson.linkShortener.model.DTOs.BlockIPCreateDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
